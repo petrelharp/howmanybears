@@ -2,7 +2,7 @@ library(rgdal)
 library(sp)
 library(sf)
 library(rgeos)
-library(mapshaper)
+library(raster)
 
 hydro <- readOGR(dsn="./Hydrography_Polygons.shp")
 hydro <- crop(hydro,
@@ -31,4 +31,13 @@ plot(hydro, col="#79BCDF", add=TRUE, border=NA)
 plot(up, add=TRUE)
 dev.off()
 
+# the UP has an aspect ratio of almost exactly 2:1
+r <- raster(ncol=200, nrow=100)
+extent(r) <- extent(up)
+upraster <- rasterize(up, r)
 
+x <- values(upraster)
+x[is.na(x)] <- 0
+dim(x) <- dim(upraster)[1:2]
+x <- x[nrow(x):1, ]
+cat(rev(x), file='up_raster.txt')
