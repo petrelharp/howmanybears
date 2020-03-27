@@ -1,0 +1,102 @@
+// set up a simple neutral simulation
+initialize() {
+	initializeSLiMModelType("nonWF");
+	initializeSLiMOptions(dimensionality="xy");
+	initializeSex("A");
+	
+	// spatial distance units are in kilometers
+	defineConstant("K", 0.1); // carrying-capacity per unit square (roughly); total area is about 43,000
+	defineConstant("SD", 10.0); // sigma_D, the dispersal distance
+	defineConstant("SI", 10.0); // sigma_I, the spatial interaction distance
+	defineConstant("SM", 10.0); // sigma_M, the mate choice distance
+	defineConstant("L", 4); // mean lifetime at stationarity
+	defineConstant("G", 1e8); // genome length
+	defineConstant("FECUN", 1/L); // mean fecundity
+	defineConstant("RHO", FECUN/((1+FECUN) * K)); // constant in spatial competition function
+	defineConstant("REPRO_AGE", 2);
+	defineConstant("NUM_NEIGHBORS", 5);
+	
+	initializeMutationRate(1e-7);
+	
+	// m1 mutation type: neutral
+	initializeMutationType("m1", 0.5, "f", 0.0);
+	
+	// g1 genomic element type: uses m1 for all mutations
+	initializeGenomicElementType("g1", m1, 1.0);
+	
+	// uniform chromosome of length 100 kb with uniform recombination
+	initializeGenomicElement(g1, 0, G-1);
+	initializeRecombinationRate(1e-8);
+	
+	// spatial competition
+	initializeInteractionType(1, "xy", reciprocal=T, maxDistance=SI * 3);
+	i1.setInteractionFunction("n", 1.0/(2*PI*SI^2), SI);
+	
+	// mate choice
+	initializeInteractionType(2, "xy", reciprocal=T, maxDistance=SM * 3);
+	i2.setInteractionFunction("n", 1.0/(2*PI*SM^2), SM);
+}
+
+reproduction(p1, "F") {
+	if (individual.age >= REPRO_AGE) {
+		mates = i2.drawByStrength(individual, NUM_NEIGHBORS);
+		mates = mates[mates.sex == "M"];
+		if (mates.size()) {
+			mate = sample(mates, 1);
+			nOff = rpois(1, FECUN);
+			for (i in seqLen(nOff)) {
+				xy = individual.spatialPosition;
+				dxy = rnorm(2, 0, SD);
+				while (p1.spatialMapValue('up', xy + dxy) == 0) {
+					dxy = rnorm(2, 0, SD);
+				}
+				offspring = subpop.addCrossed(individual, mate);
+				offspring.setSpatialPosition(xy + dxy);
+			}
+		}
+	}
+	return;
+}
+
+
+1 early() {
+	sim.addSubpop("p1", asInteger(3*530*265*0.3*K));
+	p1.setSpatialBounds(c(0, 0, 530, 265));
+	mapValues = asFloat(strsplit(readFile("layers/up_raster.txt"), " "));
+	p1.defineSpatialMap("up", "xy", c(200, 100), mapValues, valueRange=c(0.0, 1.0), colors=c("#888888", "#FFFFFF"));
+	for (ind in p1.individuals) {
+		xy = p1.pointUniform();
+		while (p1.spatialMapValue('up', xy) == 0) {
+			xy = p1.pointUniform();
+		}
+		ind.setSpatialPosition(xy);
+	}
+}
+
+early() {
+	i1.evaluate(p1);
+	inds = p1.individuals;
+	competition = i1.totalOfNeighborStrengths(inds);
+	inds.fitnessScaling = pmin(0.95, 1/(1 + RHO * competition));
+}
+
+early() {
+	// year-to-year movements
+	for (ind in p1.individuals) {
+		xy = ind.spatialPosition;
+		dxy = rnorm(2, 0, SD);
+		while (p1.spatialMapValue('up', xy + dxy) == 0) {
+			dxy = rnorm(2, 0, SD);
+		}
+		ind.setSpatialPosition(xy);
+	}
+}
+
+1: late() {
+	// to be ready for mate choice
+	i2.evaluate(p1);
+}
+
+1000 late() { 
+	
+}
