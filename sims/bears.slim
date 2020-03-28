@@ -2,14 +2,15 @@
 initialize() {
 	initializeSLiMModelType("nonWF");
 	initializeSLiMOptions(dimensionality="xy");
+	initializeTreeSeq();
 	initializeSex("A");
 	
 	// spatial distance units are in kilometers
-	defineConstant("K", 0.1); // carrying-capacity per unit square (roughly); total area is about 43,000
+	defineConstant("K", 1.0); // carrying-capacity per unit square (roughly); total area is about 43,000
 	defineConstant("SD", 10.0); // sigma_D, the dispersal distance
 	defineConstant("SI", 10.0); // sigma_I, the spatial interaction distance
 	defineConstant("SM", 10.0); // sigma_M, the mate choice distance
-	defineConstant("L", 4); // mean lifetime at stationarity
+	defineConstant("L", 3); // mean lifetime at stationarity
 	defineConstant("G", 1e8); // genome length
 	defineConstant("FECUN", 1/L); // mean fecundity
 	defineConstant("RHO", FECUN/((1+FECUN) * K)); // constant in spatial competition function
@@ -46,12 +47,11 @@ reproduction(p1, "F") {
 			nOff = rpois(1, FECUN);
 			for (i in seqLen(nOff)) {
 				xy = individual.spatialPosition;
-				dxy = rnorm(2, 0, SD);
-				while (p1.spatialMapValue('up', xy + dxy) == 0) {
-					dxy = rnorm(2, 0, SD);
+				nxy = p1.pointReflected(xy + rnorm(2, 0, SD));
+				if (p1.spatialMapValue('up', nxy) > 0) {
+					offspring = subpop.addCrossed(individual, mate);
+					offspring.setSpatialPosition(nxy);
 				}
-				offspring = subpop.addCrossed(individual, mate);
-				offspring.setSpatialPosition(xy + dxy);
 			}
 		}
 	}
@@ -60,16 +60,34 @@ reproduction(p1, "F") {
 
 
 1 early() {
-	sim.addSubpop("p1", asInteger(3*530*265*0.3*K));
+	sim.addSubpop("p1", asInteger(0.5*530*265*0.3*K));
 	p1.setSpatialBounds(c(0, 0, 530, 265));
 	mapValues = asFloat(strsplit(readFile("layers/up_raster.txt"), " "));
-	p1.defineSpatialMap("up", "xy", c(200, 100), mapValues, valueRange=c(0.0, 1.0), colors=c("#888888", "#FFFFFF"));
+	p1.defineSpatialMap("up", "xy", c(200, 100), mapValues, valueRange=c(0.0, 4.0), colors=c("#888888", "#FFFFFF"));
 	for (ind in p1.individuals) {
 		xy = p1.pointUniform();
-		while (p1.spatialMapValue('up', xy) == 0) {
+		val = p1.spatialMapValue('up', xy);
+		while (val == 0) {
 			xy = p1.pointUniform();
+			val = p1.spatialMapValue('up', xy);
 		}
+		ind.tagF = val;
 		ind.setSpatialPosition(xy);
+	}
+}
+
+early() {
+	// year-to-year movements
+	for (ind in p1.individuals) {
+		xy = ind.spatialPosition;
+		nxy = p1.pointReflected(xy + rnorm(2, 0, SD));
+		val = p1.spatialMapValue('up', nxy);
+		while (val == 0) {
+			nxy = p1.pointReflected(xy + rnorm(2, 0, SD));
+			val = p1.spatialMapValue('up', nxy);
+		}
+		ind.tagF = val;
+		ind.setSpatialPosition(nxy);
 	}
 }
 
@@ -77,19 +95,7 @@ early() {
 	i1.evaluate(p1);
 	inds = p1.individuals;
 	competition = i1.totalOfNeighborStrengths(inds);
-	inds.fitnessScaling = pmin(0.95, 1/(1 + RHO * competition));
-}
-
-early() {
-	// year-to-year movements
-	for (ind in p1.individuals) {
-		xy = ind.spatialPosition;
-		dxy = rnorm(2, 0, SD);
-		while (p1.spatialMapValue('up', xy + dxy) == 0) {
-			dxy = rnorm(2, 0, SD);
-		}
-		ind.setSpatialPosition(xy);
-	}
+	inds.fitnessScaling = pmin(0.9, 1/(1 + RHO * inds.tagF * competition));
 }
 
 1: late() {
@@ -97,6 +103,10 @@ early() {
 	i2.evaluate(p1);
 }
 
-1000 late() { 
-	
+450: late() {
+	sim.treeSeqRememberIndividuals(p1.individuals);
+}
+
+500 late() { 
+	sim.treeSeqOutput("bears.trees");
 }
