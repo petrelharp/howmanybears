@@ -15,6 +15,7 @@
 \usepackage[super,numbers,sort&compress]{natbib}
 \usepackage[font=scriptsize,labelfont=bf]{caption}
 \usepackage[parfill]{parskip}
+%\usepackage{pgfgantt}
 \parskip=8pt
 \pagenumbering{gobble}
 
@@ -27,6 +28,8 @@ left=1in,
 right=1in,
 bottom=1in
 } 
+
+\newcommand{\gb}[1]{{\color{blue}{#1}}}
 
 %	 NOTES ON PROPOSAL
 %            1-2pg pre-proposal that includes:
@@ -83,9 +86,9 @@ but crucially still requires a costly and time-intensive
 marking field effort.
 
 Using genetic data from sampled individuals 
-offers an exciting and cost-effective alternative to CMR 
+offers an accurate and cost-effective alternative to CMR 
 for estimating population sizes. 
-Genetic mark-recapture methods can effectively use 
+Genetic mark-capture methods can effectively use 
 an individual's genetic data in lieu of 
 the initial marking effort in a standard CMR; 
 researchers may therefore 
@@ -115,6 +118,10 @@ over competing models.
 Like all genetic mark recapture models, 
 a CKMR approach requires only a single round of sampling, 
 which can be achieved through a harvest.
+(It would be more accurate to refer to CKMR as 
+a Close-Kin Capture method, 
+as there is no marking phase, 
+so it therefore requires no recapture.)
 These methods also avoid some types of bias 
 that can be introduced into CMR methods due to 
 heterogeneity in capture/recapture probability.
@@ -125,26 +132,64 @@ they allow a researcher to study unsampled individuals.
 
 \item ``we propose...'' 
 
-Here, we propose to develop a CKMR model 
-for black bears in Michigan's Upper Peninsula.
+Here, we propose to develop a \gb{spatial} CKMR model 
+for black bears in Michigan's Upper Peninsula (UP) 
+for use by the Michigan Department of Natural Resources.
+This model, which will account for 
+variable fecundity and capture probability, 
+as well as non-sparse sampling, 
+will generate population size estimates 
+for the adult, pre-harvest black bear population in the UP. 
+\gb{We will extend existing CKMR models 
+to incorporate geography; 
+in addition to generating estimates of total population size, 
+this spatial model will also generate maps of estimated 
+population density, 
+and has the potential to shed light 
+on other demographic parameters as well.}
+This model will be extensively tested using spatially explicit,  
+forward-time simulations carried out on a map of the UP. 
+Biological parameters used to simulate these test data 
+will be informed by previous demographic and ecological 
+research on Michigan black bears \citep{Moore_etal_2014}.
+These simulations will be used both to 
+validate the proposed inference procedure 
+and to explore the sensitivity of the output to model assumptions 
+(all model assumptions will be listed in the model documentation).
+
+To disseminate the results of this new model, 
+we will implement it in a \gb{graphical user-interface} 
+for easy use by the DNR, 
+and provide accompanying documentation 
+and a video walk-through demonstration. 
+We will also engage in educational trainings with state biologists, 
+and assist in outreach with 
+administrators, commissioners, and stakeholders.
+%\item description of deliverables (explicit about what we could offer over existing methods)
+%\begin{itemize}
+%\item map of density
+%\item accompanying map of uncertainty
+%\item maybe map of dispersal
+%\item highlight areas w/ outlier dispersal
+%\item might reveal MUs for harvesting
+%\item some validation and caveats
+%\item user interface and accompanying training 
+%\item could be applied to LP
+%\item could give other demographic info
 
 \item credentials/expertise 
-\begin{itemize}
-\item spatial popgen
-\item statistical methods
-\item previous bear research
-\item deliverables for informing government action (torts)
-\end{itemize}
-\item description of deliverables (explicit about what we could offer over existing methods)
-\begin{itemize}
-\item map of density
-\item accompanying map of uncertainty
-\item maybe map of dispersal
-\item highlight areas w/ outlier dispersal
-\item might reveal MUs for harvesting
-\item some validation and caveats
-\item user interface and accompanying training 
-\end{itemize}
+
+We are confident that we will be able to 
+carry out the proposed work in the timeline.
+Both PIs Bradburd and Ralph have extensive 
+experience developing statistical methods -- 
+with a particular focus on spatial population genetics -- 
+and implementing them as documented software packages.
+In addition, the PIs have collaborated previously 
+on black bear research \citep{SpaceMix}
+and on developing management plans 
+for government agencies \citep{DRECP}. 
+
 \item budget: pdoc and summer salary for PIs for 2 yrs
 \item timeline (gant chart?)
 \begin{itemize}
