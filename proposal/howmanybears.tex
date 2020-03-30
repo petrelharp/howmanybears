@@ -111,7 +111,8 @@ is more likely to contain siblings than that
 from a population with a large number of breeding adults; 
 the number of sibling-pairs in a sample can 
 therefore shed light on adult population sizes 
-in the previous generation.
+in the previous generation 
+(for intuition, see Fig \gb{XXX}).
 
 CKMR approaches offer a number of advantages 
 over competing models. 
@@ -140,6 +141,9 @@ variable fecundity and capture probability,
 as well as non-sparse sampling, 
 will generate population size estimates 
 for the adult, pre-harvest black bear population in the UP. 
+%start w/ a standard ckmr
+%test whether spatial structure might have an impact on it
+% develop a spatial version as well
 \gb{We will extend existing CKMR models 
 to incorporate geography; 
 in addition to generating estimates of total population size, 
@@ -149,18 +153,21 @@ and has the potential to shed light
 on other demographic parameters as well.}
 This model will be extensively tested using spatially explicit,  
 forward-time simulations carried out on a map of the UP. 
+\gb{peter add text here.}
 Biological parameters used to simulate these test data 
 will be informed by previous demographic and ecological 
 research on Michigan black bears \citep{Moore_etal_2014}.
+% also test w/ hindcasted biological scenarios
 These simulations will be used both to 
 validate the proposed inference procedure 
 and to explore the sensitivity of the output to model assumptions 
 (all model assumptions will be listed in the model documentation).
 
 To disseminate the results of this new model, 
-we will implement it in a \gb{graphical user-interface} 
+we will implement it in well-documented scripts 
+that produce templated reports and graphical output
 for easy use by the DNR, 
-and provide accompanying documentation 
+and provide accompanying vignettes 
 and a video walk-through demonstration. 
 We will also engage in educational trainings with state biologists, 
 and assist in outreach with 
