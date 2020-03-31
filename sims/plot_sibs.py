@@ -1,3 +1,4 @@
+#!/usr/bin/env python3
 import pyslim, msprime
 import numpy as np
 import spatial_plots as sps
@@ -21,6 +22,7 @@ if len(sys.argv) != 2:
     raise ValueError(usage)
 
 treefile = sys.argv[1]
+outbase = ".".join(treefile.split(".")[:-1])
 
 ts = pyslim.load(treefile)
 
@@ -81,8 +83,8 @@ if False:
               width = 0.75,
               units='xy', scale=1)
 
-    fig.savefig("sibs.pdf")
+    fig.savefig(f"{outbase}.sibs.pdf")
 
 xy = np.column_stack([locs[parent_ids, :], locs[child_ids, :]])
-np.savetxt("sib_locs.tsv", xy)
-np.savetxt("sample_locs.tsv", locs[sampled_bears,:])
+np.savetxt(f"{outbase}.sib_locs.tsv", xy)
+np.savetxt(f"{outbase}.sample_locs.tsv", locs[sampled_bears,:])

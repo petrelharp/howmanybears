@@ -1,10 +1,8 @@
 \RequirePackage{fix-cm}
 \documentclass[12pt]{article}
 \usepackage[fontsize=12pt]{scrextend}
-\usepackage{wrapfig}
 \usepackage{geometry} 
 \usepackage{graphicx}
-\usepackage{float}
 \usepackage{url}
 \usepackage{mathtools}
 \usepackage{amsmath}
@@ -15,7 +13,9 @@
 \usepackage[super,numbers,sort&compress]{natbib}
 \usepackage[font=scriptsize,labelfont=bf]{caption}
 \usepackage[parfill]{parskip}
+\usepackage{wrapfig}
 %\usepackage{pgfgantt}
+\usepackage[hidelinks]{hyperref}
 \parskip=8pt
 \pagenumbering{gobble}
 
@@ -96,6 +96,30 @@ only have to do a single round of sampling
 (rather than two), 
 or to rely solely on data collected from harvested animals.
 
+\begin{wrapfigure}{r}{.5\textwidth}
+    \centering
+      \vskip -3em
+        \includegraphics[width=.45\textwidth]{{../sims/bears_K1.0.bear_sibs}.pdf}
+        \includegraphics[width=.45\textwidth]{{../sims/bears_K0.25.bear_sibs}.pdf}
+    \caption{  \label{fig:maps}
+    % NOTE: wrapfigs can't be inside of list environments, which is why this goes to the end
+    Locations of sampled bears (black points)
+    and relationships of sampled half-sibs to usually unsampled parents (red lines),
+    in spatially explicit simulations of sexual, age-structured populations
+    with local density-dependent population regulation,
+    at two values of local population density.
+    In the top figure, a total population of around 14,000 bears resulted in
+    73 half-sib pairs out of 1,000 harvested bears,
+    while in the lower figure, a total population of around 3,300 resulted in
+    216 half-sib pairs out of the same number.
+    Simulations were run with SLiM \citep{haller2018forward},
+    and have many realistic features
+    (e.g., nonuniform density and local post-natal dispersal)
+    but are only proof-of-concept.
+    Code available at \url{https://github.com/petrelharp/howmanybears}.
+    }
+\end{wrapfigure}
+
 Close-kin mark-recapture (CKMR) models 
 are an exciting class of genetic mark-recapture methods 
 that leverage advances in molecular genetics 
@@ -105,6 +129,7 @@ To build an intuition for how relatedness
 between sampled individuals can be informative 
 about total population size, 
 we can consider the number of siblings in a sample.
+As depicted in Figure~\ref{fig:maps},
 A random sample from a population 
 with a small number of breeding adults 
 is more likely to contain siblings than that 
@@ -156,7 +181,7 @@ forward-time simulations carried out on a map of the UP.
 \gb{peter add text here.}
 Biological parameters used to simulate these test data 
 will be informed by previous demographic and ecological 
-research on Michigan black bears \citep{Moore_etal_2014}.
+research on Michigan black bears \citep{moore2014application}.
 % also test w/ hindcasted biological scenarios
 These simulations will be used both to 
 validate the proposed inference procedure 
@@ -193,9 +218,11 @@ experience developing statistical methods --
 with a particular focus on spatial population genetics -- 
 and implementing them as documented software packages.
 In addition, the PIs have collaborated previously 
-on black bear research \citep{SpaceMix}
-and on developing management plans 
-for government agencies \citep{DRECP}. 
+on black bear research \citep{bradburd2018inferring},
+developing management plans 
+for government agencies \citep{shaffer2017desert},
+and have recently co-written a review discussing how to link properties of the pedigree
+to population demography and dynamics \citep{bradburd2019spatial}.
 
 \item budget: pdoc and summer salary for PIs for 2 yrs
 \item timeline (gant chart?)
@@ -213,5 +240,5 @@ for government agencies \citep{DRECP}.
 \end{itemize}
 
 \clearpage
-%\bibliography{../../../references/reference.library.bib}
+\bibliography{references.bib}
 \end{document}

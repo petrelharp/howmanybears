@@ -6,7 +6,12 @@ initialize() {
 	initializeSex("A");
 	
 	// spatial distance units are in kilometers
-	defineConstant("K", 1.0); // carrying-capacity per unit square (roughly); total area is about 43,000
+    if (!exists("K")) {
+      defineConstant("K", 1.0); // carrying-capacity per unit square (roughly); total area is about 43,000
+    }
+    if (!exists("OUTBASE")) {
+      defineConstant("OUTBASE", "bears_K" + K);
+    }
 	defineConstant("SD", 10.0); // sigma_D, the dispersal distance
 	defineConstant("SI", 10.0); // sigma_I, the spatial interaction distance
 	defineConstant("SM", 10.0); // sigma_M, the mate choice distance
@@ -103,10 +108,16 @@ early() {
 	i2.evaluate(p1);
 }
 
-450: late() {
+2: late() {
+    inds = p1.individuals;
+    ages = sapply(seqLen(1 + max(inds.age)), "sum(inds.age == applyValue);");
+    catn(sim.generation + " " + p1.individualCount + " " + paste(ages, sep=' '));
+}
+
+400: late() {
 	sim.treeSeqRememberIndividuals(p1.individuals);
 }
 
 500 late() { 
-	sim.treeSeqOutput("bears.trees");
+	sim.treeSeqOutput(OUTBASE + ".trees");
 }
