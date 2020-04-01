@@ -29,6 +29,9 @@ right=1in,
 bottom=1in
 } 
 
+\setlength{\parindent}{1.5em}
+\setlength{\parskip}{0.25em}
+
 \newcommand{\gb}[1]{{\color{blue}{#1}}}
 
 %	 NOTES ON PROPOSAL
@@ -47,10 +50,14 @@ bottom=1in
 \textbf{Developing a close-kin mark-recapture model to map black bear population numbers in Michigan (Upper Peninsula)}
 \end{center}
 %            
-\begin{itemize}
-\item motivation: what are we trying to do and why
+\vspace{1em}
 
-Getting accurate population size estimates 
+\noindent Dr. Gideon Bradburd, Dept. of Integrative Biology, Michigan State University\\
+\noindent Dr. Peter Ralph, Dept. of Mathematics, University of Oregon
+
+\vspace{1em}
+
+\noindent Getting accurate population size estimates 
 for managed or threatened species  
 is vital for implementing informed strategies for managing them.
 In Michigan, black bears (\textit{Ursus americanus}) 
@@ -62,8 +69,6 @@ bear population numbers in the state
 are therefore a necessary component 
 of any effective management plan.
 
-\item brief description of current methods (CMR)
-
 Recent bear population monitoring efforts 
 in the state of Michigan have relied on 
 capture-mark-recapture (CMR) methods, 
@@ -71,8 +76,6 @@ by which a sample of a population is initially marked,
 and an estimate of total population abundance 
 can be made from the number of marked individuals 
 that are subsequently recaptured (or harvested). 
-
-\item areas for improvement
 
 However, traditional CMR methods are not ideal:  
 they require extra fieldwork to do initial population marking; 
@@ -131,9 +134,7 @@ Moreover, by focusing on multiple pedigree connections
 in addition to parent-offspring and full-sib) 
 they allow a researcher to study unsampled individuals.
 
-\item ``we propose...'' 
-
-Here, we propose to develop a \gb{spatial} CKMR model 
+Here, we propose to develop a CKMR model 
 for black bears in Michigan's Upper Peninsula (UP) 
 for use by the Michigan Department of Natural Resources.
 This model, which will account for 
@@ -141,27 +142,27 @@ variable fecundity and capture probability,
 as well as non-sparse sampling, 
 will generate population size estimates 
 for the adult, pre-harvest black bear population in the UP. 
-%start w/ a standard ckmr
-%test whether spatial structure might have an impact on it
-% develop a spatial version as well
-\gb{We will extend existing CKMR models 
-to incorporate geography; 
-in addition to generating estimates of total population size, 
+Because spatial structure in the bear population might impact 
+population size estimates, 
+we will also extend existing CKMR models 
+to incorporate geography.
+In addition to generating estimates of total population size 
+that are robust to the spatial structure of the pedigree, 
 this spatial model will also generate maps of estimated 
 population density, 
 and has the potential to shed light 
-on other demographic parameters as well.}
+on other demographic parameters as well.
 This model will be extensively tested using spatially explicit,  
 forward-time simulations carried out on a map of the UP. 
 \gb{peter add text here.}
 Biological parameters used to simulate these test data 
 will be informed by previous demographic and ecological 
-research on Michigan black bears \citep{Moore_etal_2014}.
-% also test w/ hindcasted biological scenarios
+research on Michigan black bears \citep{Moore2014}.
 These simulations will be used both to 
 validate the proposed inference procedure 
 and to explore the sensitivity of the output to model assumptions 
 (all model assumptions will be listed in the model documentation).
+\gb{hindcasting?  not sure if there is historical data...}
 
 To disseminate the results of this new model, 
 we will implement it in well-documented scripts 
@@ -172,46 +173,29 @@ and a video walk-through demonstration.
 We will also engage in educational trainings with state biologists, 
 and assist in outreach with 
 administrators, commissioners, and stakeholders.
-%\item description of deliverables (explicit about what we could offer over existing methods)
-%\begin{itemize}
-%\item map of density
-%\item accompanying map of uncertainty
-%\item maybe map of dispersal
-%\item highlight areas w/ outlier dispersal
-%\item might reveal MUs for harvesting
-%\item some validation and caveats
-%\item user interface and accompanying training 
-%\item could be applied to LP
-%\item could give other demographic info
-
-\item credentials/expertise 
 
 We are confident that we will be able to 
-carry out the proposed work in the timeline.
+carry out the proposed work in the timeline below (Figure \ref{timeline}).
 Both PIs Bradburd and Ralph have extensive 
-experience developing statistical methods -- 
-with a particular focus on spatial population genetics -- 
+experience developing statistical methods \citep{bedassle, SpaceMix, conStruct} -- 
+with a particular focus on spatial population genetics \citep{Bradburd_Ralph_2019, Battey_etal_2020} -- 
 and implementing them as documented software packages.
 In addition, the PIs have collaborated previously 
-on black bear research \citep{SpaceMix}
+on black bear research \citep{conStruct}
 and on developing management plans 
-for government agencies \citep{DRECP}. 
+for government agencies \citep{DesertTorts}. 
 
-\item budget: pdoc and summer salary for PIs for 2 yrs
-\item timeline (gant chart?)
-\begin{itemize}
-\item hire personnel
-\item devleop \& test methods
-\item get UI up and running
-\item do preliminary trainings
-\item tweak
-\item do more trainings \& release
-\end{itemize}
-%look deeper in pedigree
-% value added: all inds simultaneously vs. one dyad at a time?
-%MI-specifc simulation
-\end{itemize}
+% value added: all inds simultaneously vs. one dyad at a time? ; MI-specifc simulation framework
+
+\begin{figure}[h!]
+    \centering
+         \includegraphics[width=\linewidth]{bear_gantt_chart.pdf}
+        \caption{
+		Timeline of proposed work.
+        }
+        \label{timeline}
+\end{figure}
 
 \clearpage
-%\bibliography{../../../references/reference.library.bib}
+\bibliography{references.bib}
 \end{document}

@@ -4,3 +4,5 @@
 proposal/*.pdf
 .*.swp
 */.Rapp.history
+*/*.bbl
+*/*.blg
