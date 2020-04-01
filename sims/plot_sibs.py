@@ -1,4 +1,5 @@
-import pyslim, msprime
+#!/usr/bin/env python3
+import pyslim, msprime, tskit
 import numpy as np
 import spatial_plots as sps
 import sys
@@ -21,6 +22,7 @@ if len(sys.argv) != 2:
     raise ValueError(usage)
 
 treefile = sys.argv[1]
+outbase = ".".join(treefile.split(".")[:-1])
 
 ts = pyslim.load(treefile)
 
@@ -31,17 +33,34 @@ def get_children(ts, targets=None, max_parent_time=ts.slim_generation):
     '''
     if targets is None:
         targets = np.arange(ts.num_individuals)
-    not_targets = set(range(-1, ts.num_individuals)) - set(targets)
+    # edges describing relationships between individuals
+    edge_parent_indiv = ts.tables.nodes.individual[ts.tables.edges.parent]
+    edge_child_indiv = ts.tables.nodes.individual[ts.tables.edges.child]
+    indiv_edges = np.logical_and(edge_parent_indiv != tskit.NULL,
+                                 edge_child_indiv != tskit.NULL)
+    # edges where the parent was actually alive at the birth time of the child
+    child_births = ts.individual_times[edge_child_indiv[indiv_edges]]
+    parent_births = ts.individual_times[edge_parent_indiv[indiv_edges]]
+    parent_deaths = parent_births - ts.individual_ages[edge_parent_indiv[indiv_edges]]
+    alive_edges = indiv_edges.copy()
+    alive_edges[indiv_edges] = (child_births >= parent_deaths)
+    # individuals whose only ancestors are individuals
+    has_all_parents = np.repeat(True, ts.num_individuals)
+    has_all_parents[
+            ts.tables.nodes.individual[
+                ts.tables.edges.child[np.logical_not(indiv_edges)]]] = False
+    # putting it all together
+    good_edges = alive_edges.copy()
+    good_edges[np.logical_not(has_all_parents)[edge_child_indiv]] = False
+    # and hit only the targets
+    is_target = np.repeat(False, ts.num_individuals)
+    is_target[targets] = True
+    good_edges[np.logical_not(is_target)[edge_child_indiv]] = False
+    good_parents = ts.tables.nodes.individual[ts.tables.edges.parent[good_edges]]
+    good_children = ts.tables.nodes.individual[ts.tables.edges.child[good_edges]]
     out = []
-    nodes = ts.tables.nodes
-    edges = ts.tables.edges
-    for ind in ts.individuals():
-        children = []
-        if ind.time < max_parent_time:
-            for n in ind.nodes:
-                children.extend(nodes.individual[edges.child[edges.parent == n]])
-            children = set(children) - not_targets
-        out.append(list(children))
+    for k in range(ts.num_individuals):
+        out.append(list(set(good_children[good_parents == k])))
     return out
 
 
@@ -81,8 +100,8 @@ if False:
               width = 0.75,
               units='xy', scale=1)
 
-    fig.savefig("sibs.pdf")
+    fig.savefig(f"{outbase}.sibs.pdf")
 
 xy = np.column_stack([locs[parent_ids, :], locs[child_ids, :]])
-np.savetxt("sib_locs.tsv", xy)
-np.savetxt("sample_locs.tsv", locs[sampled_bears,:])
+np.savetxt(f"{outbase}.sib_locs.tsv", xy)
+np.savetxt(f"{outbase}.sample_locs.tsv", locs[sampled_bears,:])

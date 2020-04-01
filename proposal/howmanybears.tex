@@ -1,10 +1,8 @@
 \RequirePackage{fix-cm}
-\documentclass[12pt]{article}
+\documentclass[11pt]{article}
 \usepackage[fontsize=12pt]{scrextend}
-\usepackage{wrapfig}
 \usepackage{geometry} 
 \usepackage{graphicx}
-\usepackage{float}
 \usepackage{url}
 \usepackage{mathtools}
 \usepackage{amsmath}
@@ -15,7 +13,9 @@
 \usepackage[super,numbers,sort&compress]{natbib}
 \usepackage[font=scriptsize,labelfont=bf]{caption}
 \usepackage[parfill]{parskip}
+\usepackage{wrapfig}
 %\usepackage{pgfgantt}
+\usepackage[hidelinks]{hyperref}
 \parskip=8pt
 \pagenumbering{gobble}
 
@@ -30,7 +30,7 @@ bottom=1in
 } 
 
 \setlength{\parindent}{1.5em}
-\setlength{\parskip}{0.25em}
+\setlength{\parskip}{0.1em}
 
 \newcommand{\gb}[1]{{\color{blue}{#1}}}
 
@@ -50,7 +50,7 @@ bottom=1in
 \textbf{Developing a close-kin mark-recapture model to map black bear population numbers in Michigan (Upper Peninsula)}
 \end{center}
 %            
-\vspace{1em}
+\vspace{0.5em}
 
 \noindent Dr. Gideon Bradburd, Dept. of Integrative Biology, Michigan State University\\
 \noindent Dr. Peter Ralph, Dept. of Mathematics, University of Oregon
@@ -59,13 +59,13 @@ bottom=1in
 
 \noindent Getting accurate population size estimates 
 for managed or threatened species  
-is vital for implementing informed strategies for managing them.
+is vital for implementing informed management strategies.
 In Michigan, black bears (\textit{Ursus americanus}) 
 are managed by harvesting, 
 and the hunting license quota is determined by 
 estimates of their population size.
 Accurate, up-to-date estimates of 
-bear population numbers in the state 
+the bear population size in the state 
 are therefore a necessary component 
 of any effective management plan.
 
@@ -99,6 +99,25 @@ only have to do a single round of sampling
 (rather than two), 
 or to rely solely on data collected from harvested animals.
 
+\begin{wrapfigure}{r}{.4\textwidth}
+    \centering
+      \vskip -1em
+        \includegraphics[width=.4\textwidth]{{../sims/bears_K1.0.bear_sibs}.pdf}
+        \includegraphics[width=.4\textwidth]{{../sims/bears_K0.25.bear_sibs}.pdf}
+    \caption{  \label{fig:maps}
+    % NOTE: wrapfigs can't be inside of list environments, which is why this goes to the end
+    Locations of sampled bears (black points)
+    and relationships of sampled half-sibs (red lines),
+    in spatially explicit simulations of sexual, age-structured populations
+    with local density-dependent population regulation,
+    at two values of local population density.
+    In the top figure, a total population of around 14,000 bears resulted in
+    73 half-sib pairs out of 1,000 harvested bears,
+    while in the lower figure, a total population of around 3,300 resulted in
+    216 half-sib pairs out of the same number.
+    }
+\end{wrapfigure}
+
 Close-kin mark-recapture (CKMR) models 
 are an exciting class of genetic mark-recapture methods 
 that leverage advances in molecular genetics 
@@ -108,14 +127,14 @@ To build an intuition for how relatedness
 between sampled individuals can be informative 
 about total population size, 
 we can consider the number of siblings in a sample.
-A random sample from a population 
+As depicted in Figure~\ref{fig:maps},
+a random sample from a population 
 with a small number of breeding adults 
 is more likely to contain siblings than that 
 from a population with a large number of breeding adults; 
 the number of sibling-pairs in a sample can 
 therefore shed light on adult population sizes 
-in the previous generation 
-(for intuition, see Fig \gb{XXX}).
+in the previous generation.
 
 CKMR approaches offer a number of advantages 
 over competing models. 
@@ -154,15 +173,21 @@ and has the potential to shed light
 on other demographic parameters as well.
 This model will be extensively tested using spatially explicit,  
 forward-time simulations carried out on a map of the UP. 
-\gb{peter add text here.}
+To demonstrate the feasibility of this approach, 
+we have included sample simulations 
+of the bear population in the UP (Fig \ref{fig:maps}).
+Simulations were run with SLiM \citep{haller2018forward},
+and have many realistic features 
+(e.g., nonuniform density and local post-natal dispersal) 
+but are only proof-of-concept.
+Code available at \url{https://github.com/petrelharp/howmanybears}.
 Biological parameters used to simulate these test data 
 will be informed by previous demographic and ecological 
-research on Michigan black bears \citep{Moore2014}.
+research on Michigan black bears \citep{moore2014application}.
 These simulations will be used both to 
 validate the proposed inference procedure 
 and to explore the sensitivity of the output to model assumptions 
 (all model assumptions will be listed in the model documentation).
-\gb{hindcasting?  not sure if there is historical data...}
 
 To disseminate the results of this new model, 
 we will implement it in well-documented scripts 
@@ -175,21 +200,22 @@ and assist in outreach with
 administrators, commissioners, and stakeholders.
 
 We are confident that we will be able to 
-carry out the proposed work in the timeline below (Figure \ref{timeline}).
+carry out the proposed work in the timeline below (Fig \ref{timeline}).
 Both PIs Bradburd and Ralph have extensive 
-experience developing statistical methods \citep{bedassle, SpaceMix, conStruct} -- 
-with a particular focus on spatial population genetics \citep{Bradburd_Ralph_2019, Battey_etal_2020} -- 
+experience developing statistical methods \citep{bedassle, SpaceMix, bradburd2018inferring} -- 
+with a particular focus on spatial population genetics \citep{bradburd2019spatial, Battey_etal_2020} -- 
 and implementing them as documented software packages.
 In addition, the PIs have collaborated previously 
-on black bear research \citep{conStruct}
+on black bear research \citep{bradburd2018inferring}
 and on developing management plans 
-for government agencies \citep{DesertTorts}. 
-
+for government agencies \citep{shaffer2017desert}, 
+and have recently co-written a review discussing how to link properties of the pedigree
+to population demography and dynamics \citep{bradburd2019spatial}.
 % value added: all inds simultaneously vs. one dyad at a time? ; MI-specifc simulation framework
 
 \begin{figure}[h!]
     \centering
-         \includegraphics[width=\linewidth]{bear_gantt_chart.pdf}
+         \includegraphics[width=0.9\linewidth]{bear_gantt_chart.pdf}
         \caption{
 		Timeline of proposed work.
         }
