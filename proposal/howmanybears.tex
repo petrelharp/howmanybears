@@ -47,25 +47,27 @@ bottom=1in
 \begin{document}
 %
 \begin{center}
-\textbf{Developing a close-kin mark-recapture model to map black bear population numbers in Michigan (Upper Peninsula)}
+\textbf{Developing a close-kin mark-recapture model to map black bear population numbers in Michigan's Upper Peninsula}
 \end{center}
 %            
 \vspace{0.5em}
 
-\noindent Dr. Gideon Bradburd, Dept. of Integrative Biology, Michigan State University\\
-\noindent Dr. Peter Ralph, Dept. of Mathematics, University of Oregon
+\noindent Dr.~Gideon Bradburd, Dept.~of Integrative Biology, Michigan State University\\
+\noindent Dr.~Peter Ralph, Depts.~of Mathematics and Biology, University of Oregon
 
 \vspace{1em}
 
-\noindent Getting accurate population size estimates 
+\noindent
+Accurate population size estimates 
 for managed or threatened species  
-is vital for implementing informed management strategies.
+are vital for implementing informed management strategies.
 In Michigan, black bears (\textit{Ursus americanus}) 
 are managed by harvesting, 
-and the hunting license quota is determined by 
-estimates of their population size.
+and estimates of the population size are used in determining
+the hunting license quota.
 Accurate, up-to-date estimates of 
 the bear population size in the state 
+-- ideally, by age and by region --
 are therefore a necessary component 
 of any effective management plan.
 
@@ -76,28 +78,18 @@ by which a sample of a population is initially marked,
 and an estimate of total population abundance 
 can be made from the number of marked individuals 
 that are subsequently recaptured (or harvested). 
-
 However, traditional CMR methods are not ideal:  
 they require extra fieldwork to do initial population marking; 
 the tetracycline biomarker used in marking is no longer permitted; 
 and there is a substantial wait time (1-3 years) after the 
 initial marking period until population estimates can be made.
-Statistical catch-at-age analyses (SCAA), 
-a recent advance in CMR methods, 
-addresses some of these weaknesses \citep{mayhew2019}, 
-but crucially still requires a costly and time-intensive 
-marking field effort.
-
-Using genetic data from sampled individuals 
-offers an accurate and cost-effective alternative to CMR 
-for estimating population sizes \citep{Skaug2001,Hettiarachchige2018}. 
-Genetic mark-capture methods can effectively use 
-an individual's genetic data in lieu of 
-the initial marking effort in a standard CMR; 
-researchers may therefore 
-only have to do a single round of sampling 
-(rather than two), 
-or to rely solely on data collected from harvested animals.
+Statistical catch-at-age analysis (SCAA)
+fits a demographic model to age and fecundity distributions
+estimated from harvested bears,
+thus allowing population size estimation without costly and time-intensive
+fieldwork \citep{mayhew2019}.
+However, since SCAA does not directly estimate absolute population size,
+to remain accurate it needs periodic recalibration with another method, e.g., CMR.
 
 \begin{wrapfigure}{r}{.4\textwidth}
     \centering
@@ -105,7 +97,6 @@ or to rely solely on data collected from harvested animals.
         \includegraphics[width=.4\textwidth]{{../sims/bears_K1.0.bear_sibs}.pdf}
         \includegraphics[width=.4\textwidth]{{../sims/bears_K0.25.bear_sibs}.pdf}
     \caption{  \label{fig:maps}
-    % NOTE: wrapfigs can't be inside of list environments, which is why this goes to the end
     Locations of sampled bears (black points)
     and relationships of sampled half-sibs (red lines),
     in spatially explicit simulations of sexual, age-structured populations
@@ -113,10 +104,20 @@ or to rely solely on data collected from harvested animals.
     at two values of local population density.
     In the top figure, a total population of around 14,000 bears resulted in
     73 half-sib pairs out of 1,000 harvested bears,
-    while in the lower figure, a total population of around 3,300 resulted in
-    216 half-sib pairs out of the same number.
+    while in the lower figure, a smaller total population of around 3,300 resulted in
+    216 half-sib pairs out of the same harvested number.
     }
 \end{wrapfigure}
+
+Genetic data from sampled individuals can be used to produce
+an accurate and cost-effective alternative to CMR 
+for estimating population sizes \citep{Skaug2001,Hettiarachchige2018}. 
+Genetic mark-capture methods can effectively use 
+an individual's genetic data in lieu of
+the initial marking effort in a standard CMR; 
+researchers may therefore 
+not require recapturing the same individuals,
+and so may rely solely on data collected from harvested animals.
 
 Close-kin mark-recapture (CKMR) models 
 are an exciting class of genetic mark-recapture methods 
@@ -133,9 +134,8 @@ a random sample from a population
 with a small number of breeding adults 
 is more likely to contain siblings than that 
 from a population with a large number of breeding adults; 
-the number of sibling-pairs in a sample can 
-therefore shed light on adult population sizes 
-in the previous generation.
+the number of sibling-pairs of various ages in a sample can 
+therefore be used to infer the recent history of adult population sizes.
 
 CKMR approaches offer a number of advantages 
 over competing models. 
@@ -159,7 +159,7 @@ for black bears in Michigan's Upper Peninsula (UP)
 for use by the Michigan Department of Natural Resources.
 This model, which will account for 
 variable fecundity and capture probability, 
-as well as non-sparse sampling, 
+as well as non-sparse and non-uniform sampling, 
 will generate population size estimates 
 for the adult, pre-harvest black bear population in the UP. 
 Because spatial structure in the bear population might impact 
@@ -175,16 +175,17 @@ on other demographic parameters as well.
 This model will be extensively tested using spatially explicit,  
 forward-time simulations carried out on a map of the UP. 
 To demonstrate the feasibility of this approach, 
-we have included sample simulations 
+we have included preliminary simulations 
 of the bear population in the UP (Fig \ref{fig:maps}).
 Simulations were run with SLiM \citep{haller2018forward},
-and have many realistic features 
+output both whole-genome genotypes and actual genealogical relationships,
+and have many realistic demographic features 
 (e.g., nonuniform density and local post-natal dispersal) 
-but are only proof-of-concept 
+but are only proof-of-concept
 (code available at \url{https://github.com/petrelharp/howmanybears}).
 Biological parameters used to simulate these test data 
 will be informed by previous demographic and ecological 
-research on Michigan black bears \citep{moore2014application}.
+research on Michigan black bears \citep{moore2014application} and partner feedback.
 These simulations will be used both to 
 validate the proposed inference procedure 
 and to explore the sensitivity of the output to model assumptions 
