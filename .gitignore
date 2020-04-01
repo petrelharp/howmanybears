@@ -1,7 +1,6 @@
 *.aux
 *.log
 *.gz
-proposal/*.pdf
 .*.swp
 */.Rapp.history
 *.blg

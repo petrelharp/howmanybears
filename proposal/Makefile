@@ -29,3 +29,7 @@ clean:
 
 %.eps : %.pdf
 	inkscape --without-gui --export-eps=$@ $<
+
+%.pdf : %.xlsx
+	libreoffice --headless --convert-to pdf:calc_pdf_Export $<
+	pdfcrop $@ $@
