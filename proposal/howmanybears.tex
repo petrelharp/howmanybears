@@ -80,7 +80,7 @@ can be made from the number of marked individuals
 that are subsequently recaptured (or harvested). 
 However, traditional CMR methods are not ideal:  
 they require extra fieldwork to do initial population marking; 
-the tetracycline biomarker used in marking is no longer permitted; 
+the tetracycline biomarker used in marking black bear individuals is no longer permitted; 
 and there is a substantial wait time (1-3 years) after the 
 initial marking period until population estimates can be made.
 Statistical catch-at-age analysis (SCAA)
@@ -112,12 +112,11 @@ to remain accurate it needs periodic recalibration with another method, e.g., CM
 Genetic data from sampled individuals can be used to produce
 an accurate and cost-effective alternative to CMR 
 for estimating population sizes \citep{Skaug2001,Hettiarachchige2018}. 
-Genetic mark-capture methods can effectively use 
+Genetic mark-capture methods use 
 an individual's genetic data in lieu of
-the initial marking effort in a standard CMR; 
-researchers may therefore 
-not require recapturing the same individuals,
-and so may rely solely on data collected from harvested animals.
+the initial marking phase in a standard CMR,  
+and may therefore use 
+data collected solely from harvested animals.
 
 Close-kin mark-recapture (CKMR) models 
 are an exciting class of genetic mark-recapture methods 
@@ -173,19 +172,20 @@ population density,
 and has the potential to shed light 
 on other demographic parameters as well.
 This model will be extensively tested using spatially explicit,  
-forward-time simulations carried out on a map of the UP. 
+forward-time simulations. 
 To demonstrate the feasibility of this approach, 
 we have included preliminary simulations 
 of the bear population in the UP (Fig \ref{fig:maps}).
-Simulations were run with SLiM \citep{haller2018forward},
+These simulations, 
+which were run with SLiM \citep{haller2018forward},
 output both whole-genome genotypes and actual genealogical relationships,
 and have many realistic demographic features 
 (e.g., nonuniform density and local post-natal dispersal) 
 but are only proof-of-concept
 (code available at \url{https://github.com/petrelharp/howmanybears}).
-Biological parameters used to simulate these test data 
-will be informed by previous demographic and ecological 
-research on Michigan black bears \citep{moore2014application} and partner feedback.
+Biological parameters used to simulate these tests  
+will be informed by previous 
+research on Michigan black bears \citep{moore2014application, mayhew2019} and partner feedback.
 These simulations will be used both to 
 validate the proposed inference procedure 
 and to explore the sensitivity of the output to model assumptions 
@@ -217,7 +217,8 @@ to population demography and dynamics \citep{bradburd2019spatial}.
 
 \begin{figure}[h!]
     \centering
-         \includegraphics[width=\linewidth]{bear_gantt_chart.pdf}
+         \includegraphics[width=0.92\linewidth]{bear_gantt_chart.pdf}
+		\vspace{-0.5em}
         \caption{
 		Timeline of proposed work.
         }
