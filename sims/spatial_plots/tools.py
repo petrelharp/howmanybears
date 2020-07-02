@@ -1,3 +1,6 @@
+import scipy.sparse
+import numpy as np
+
 def relatedness_matrix(ts, left=0.0, right=None):
     """
     Constructs the sparse matrix whose [i,j]th entry gives the amount that node j
@@ -7,7 +10,7 @@ def relatedness_matrix(ts, left=0.0, right=None):
     if right is None:
         right = ts.sequence_length
     edges = ts.tables.edges
-    R = sparse.coo_matrix((np.fmin(right, edges.right) - np.fmax(left, edges.left), 
+    R = scipy.sparse.coo_matrix((np.fmin(right, edges.right) - np.fmax(left, edges.left), 
                            (edges.parent, edges.child)), 
                            shape = (ts.num_nodes, ts.num_nodes), dtype = 'float')
     return R.tocsc()

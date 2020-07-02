@@ -30,6 +30,8 @@ def get_children(ts, targets=None, max_parent_time=ts.slim_generation):
     '''
     Returns a list of individual IDs, giving for each individual
     the IDs of their children.
+
+    TODO: use ts.has_individual_parents()
     '''
     if targets is None:
         targets = np.arange(ts.num_individuals)
